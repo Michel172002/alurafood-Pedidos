@@ -1,7 +1,9 @@
 package br.com.alurafood.pedidos.controller;
 
+import br.com.alurafood.pedidos.dto.ItemDoPedidoDto;
 import br.com.alurafood.pedidos.dto.PedidoDto;
 import br.com.alurafood.pedidos.dto.StatusDto;
+import br.com.alurafood.pedidos.model.ItemDoPedido;
 import br.com.alurafood.pedidos.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -62,5 +64,12 @@ public class PedidoController {
         @GetMapping("/porta")
         public String retornaPorta(@Value("${local.server.port}") String porta){
             return String.format("Requisição respondida pela instancia executando na porta: %s", porta);
+        }
+
+        @GetMapping("/{id}/itens")
+        public ResponseEntity<List<ItemDoPedidoDto>> retornarItensDoPedido(@PathVariable @NotNull Long id){
+            List<ItemDoPedidoDto> listaDeItensDoPedidoDto = service.retornarItensDoPedido(id);
+
+            return ResponseEntity.ok(listaDeItensDoPedidoDto);
         }
 }
